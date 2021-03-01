@@ -1,0 +1,132 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #555555
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header {
+    width: 1200px;
+    height: 400px;
+    background-color: #232323;
+    color: white;
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.title {
+    font-weight: 400;
+    font-size: 38px;
+    margin: 30px 0 42px 122px
+}
+
+.search {
+    display: flex;
+    margin-left: 122px;
+    height: 58px;
+}
+
+.search input {
+    width: 710px;
+    background-color: rgba(255, 255, 255, 0.1);
+    margin-right: 12px;
+    color: white;
+    padding: 0 24px;
+}
+
+.search button {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    width: 235px;
+    background-color: #F65261;
+    color: white;
+    cursor: pointer;
+}
+
+.add-btn {
+    width: 180px;
+    height: 48px;
+    color: #F65261;
+    margin: 20px 58px 0 0;
+    align-self: flex-end;
+    cursor: pointer;
+    background-color: #555555;
+    opacity: .8;
+    font-weight: 600;
+}
+
+.border-r {
+    border-radius: 4px;
+    font-size: 20px;
+    border: none;
+}
+
+.outline-none {
+    outline: none;
+}
+
+.movie-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding-top: 32px;
+    background-color: #232323;
+    width: 1200px;
+}
+
+.card {
+    height: 458px;
+    background-color: #555555;
+    margin-bottom: 22px;
+}
+
+.description {
+    display: flex;
+    justify-content: space-between;
+    color: #BDBDBD;
+    font-weight: 600;
+}
+
+.movie {
+    width: 324px;
+    margin-bottom: 56px;
+}
+
+.d-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.year {
+    width: 64px;
+    border: 1px solid #5E5E5E;
+    border-radius: 4px;
+    height: 26px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    color: #BDBDBD;
+}
+
+.movie-name {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.movie-genre {
+    font-size: 14px;
+    color: #8D8D8D;
+}
+
+footer {
+    height: 72px;
+    width: 1200px;
+    background-color: #F65261;
+}
