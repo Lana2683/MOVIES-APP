@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-export const ErrorBoundary = ({ children }) => {
-    const OopsText = () => <h2>Oops, Something went wrong...</h2>
+class ErrorBoundary extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            hasError: false
+        }
+    }
+    render() {
+        const OopsText = () => <h2>Oops, Something went wrong...</h2>
+        return <>{this.state.hasError ? <OopsText/> : this.props.children} </>
+    }
+}
 
-    let isEverythingOk = true; // todo: isEverythingOk = downloadedMovies()
-
-    return <>{isEverythingOk ? children : <OopsText/>} </>
+ErrorBoundary.prototypes = {
+    children: PropTypes.element,
 }
 
 export default ErrorBoundary;
