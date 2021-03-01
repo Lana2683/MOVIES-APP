@@ -6,14 +6,14 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = {
     mode: 'development',
     context: path.join(__dirname, 'src'),
-    entry: ['./src/index.js'],
+    entry: ['./index.js'],
     output: {
         filename: '[name].bundle.js',
         path: path.resolve(__dirname, 'dev')
     },
     resolve: {
-        modules: ['node_modules'],
-        extensions: ['.js', '.jsx', '.json']
+        modules: ['../node_modules'],
+        extensions: ['.js', '.jsx', '.json', '.css'],
     },
     plugins: [
         new CleanWebpackPlugin(),
@@ -26,17 +26,21 @@ module.exports = {
     module: {
         rules: [
             {
-            test: /\.m?js$/,
-            exclude: /node_modules/,
-            use: {
-                loader: 'babel-loader',
-                options: {
-                presets: [
-                    ['@babel/preset-env', { targets: "defaults" }]
-                ]
+                test: /\.m?js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: [
+                            ['@babel/preset-env', { targets: "defaults" }]
+                        ]
+                    }
                 }
-            }
-            }
+            },
+            {
+                test: /\.css$/i,
+                use: ["style-loader", "css-loader"],
+            },
         ]
     },
     devtool: 'source-map',
@@ -46,5 +50,4 @@ module.exports = {
         port: 9000,
         open: true
     },
-    watch: true,
 };
