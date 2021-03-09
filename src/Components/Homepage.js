@@ -1,19 +1,38 @@
-import React from 'react';
+import React, {Component} from 'react';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import ErrorBoundary from './ErrorBoundary';
 import './Homepage.css';
+import { MovieModal } from "./MovieModal";
 
-export const Homepage = () =>
-    <>
-        <div className='container'>
-            <Header title='find your movie'/>
-            <ErrorBoundary>
-                <Main/>
-            </ErrorBoundary>
-            <Footer/>
-        </div>
-    </>
+class Homepage extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            isAddMovieModalShown: false
+        }
+    }
+
+    handleToggleAddMovieModal = () => {
+        this.setState({
+            isAddMovieModalShown: !this.state.isAddMovieModalShown
+        })
+    }
+
+    render() {
+        return (
+            <div className='container'>
+                <Header title='find your movie' toggleAddMovieModal={this.handleToggleAddMovieModal}/>
+                <ErrorBoundary>
+                    {this.state.isAddMovieModalShown &&
+                    <MovieModal toggleMovieModal={this.handleToggleAddMovieModal} text={'add movie'}/>}
+                    <Main/>
+                </ErrorBoundary>
+                <Footer/>
+            </div>
+    );
+    }
+}
 
 export default Homepage;

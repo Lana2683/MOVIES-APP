@@ -21,8 +21,11 @@ body {
 }
 
 .title {
-    font-weight: 400;
+    font-weight: 300;
     font-size: 38px;
+}
+
+.find-movie {
     margin: 30px 0 42px 122px
 }
 
@@ -80,49 +83,88 @@ body {
     width: 1200px;
 }
 
-.card {
-    height: 458px;
-    background-color: #555555;
-    margin-bottom: 22px;
+.add-modal {
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, .4);
+    position: fixed;
+    backdrop-filter: blur(8px);
+    padding-top: 128px;
+    color: white;
 }
 
-.description {
-    display: flex;
-    justify-content: space-between;
-    color: #BDBDBD;
-    font-weight: 600;
+.first-input {
+    margin-top: 44px;
 }
 
-.movie {
-    width: 324px;
-    margin-bottom: 56px;
+.modal-content {
+    width: 690px;
+    padding: 73px 85px 73px 53px;
+    margin: auto;
+    background-color: #232323;
 }
 
-.d-column {
+
+.modal-content li {
+    list-style-type: none;
+    margin-bottom: 32px;
+}
+
+.modal-content button {
+    height: 60px;
+    width: 180px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.text-input {
     display: flex;
     flex-direction: column;
 }
 
-.year {
-    width: 64px;
-    border: 1px solid #5E5E5E;
+.label {
+    color: #F65261;
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    letter-spacing: 1px;
+}
+
+.text-input .input {
+    height: 60px;
+    background: rgba(255, 255, 255, 0.05);
     border-radius: 4px;
-    height: 26px;
+    border: none;
+    padding-left: 20px;
+    font-size: 20px;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.btns-wrapper {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 12px;
-    color: #BDBDBD;
+    justify-content: flex-end;
 }
 
-.movie-name {
-    font-size: 18px;
-    margin-bottom: 10px;
+.rst-btn {
+    background-color: #232323;
+    border: 1px solid #F65261;
+    color: #F65261;
+    margin-right: 15px;
 }
 
-.movie-genre {
-    font-size: 14px;
-    color: #8D8D8D;
+.sbmt-btn {
+    background-color: #F65261;
+    color: white;
+}
+
+.close-modal {
+    font-size: 32px;
+    cursor: pointer;
+    float: right;
 }
 
 footer {
