@@ -12,16 +12,18 @@ class Main extends Component {
         }
     }
 
+    toggleModal = (name) => {
+        this.setState(prevState => ({
+            [name]: !prevState[name]
+        }))
+    }
+
     handleToggleEditMovieModal = () => {
-        this.setState({
-            isEditMovieModalShown: !this.state.isEditMovieModalShown
-        })
+        this.toggleModal('isEditMovieModalShown')
     }
 
     handleToggleDeleteModal = () => {
-        this.setState({
-            isDeleteModalShown: !this.state.isDeleteModalShown
-        })
+        this.toggleModal('isDeleteModalShown')
     }
 
     render() {

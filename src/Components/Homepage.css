@@ -92,7 +92,7 @@ body {
     background-color: rgba(0, 0, 0, .4);
     position: fixed;
     backdrop-filter: blur(8px);
-    padding-top: 128px;
+    padding-top: 10%;
     color: white;
 }
 

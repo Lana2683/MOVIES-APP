@@ -15,9 +15,9 @@ class Homepage extends Component {
     }
 
     handleToggleAddMovieModal = () => {
-        this.setState({
-            isAddMovieModalShown: !this.state.isAddMovieModalShown
-        })
+        this.setState(prevState => ({
+            isAddMovieModalShown: !prevState.isAddMovieModalShown
+        }))
     }
 
     render() {
