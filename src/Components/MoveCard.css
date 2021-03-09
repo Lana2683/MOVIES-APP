@@ -1,0 +1,72 @@
+.card {
+    height: 458px;
+    background-color: #555555;
+    margin-bottom: 22px;
+}
+
+.kebab-icon {
+    float: right;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background-color: #232323;
+    color: white;
+    margin: 15px 15px 0;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.description {
+    display: flex;
+    justify-content: space-between;
+    color: #BDBDBD;
+    font-weight: 600;
+}
+
+.movie {
+    width: 324px;
+    margin-bottom: 56px;
+}
+
+.d-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.year {
+    width: 64px;
+    border: 1px solid #5E5E5E;
+    border-radius: 4px;
+    height: 26px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    color: #BDBDBD;
+}
+
+.movie-name {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.movie-genre {
+    font-size: 14px;
+    color: #8D8D8D;
+}
+
+.card-menu {
+    width: 130px;
+    height: 76px;
+    background-color: #232323;
+    color: white;
+    float: right;
+    margin-right: 15px;
+}
+
+.flex {
+    display: flex;
+    width: 100%;
+}
