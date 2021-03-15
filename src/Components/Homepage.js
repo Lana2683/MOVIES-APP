@@ -1,38 +1,58 @@
-import React, {Component} from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
+
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import ErrorBoundary from './ErrorBoundary';
-import './Homepage.css';
 import { MovieModal } from "./MovieModal";
+import { MovieInfo } from "./MovieInfo";
 
-class Homepage extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            isAddMovieModalShown: false
+import './Homepage.css';
+
+export const Homepage = () => {
+    const useToggle = (isComponentShown = false) => {
+        const [flag, setFlag] = useState(isComponentShown);
+
+        const toggle = useCallback(() => {
+            setFlag(!flag)
+        }, [flag])
+        return [flag, toggle]
+    }
+
+    const [movieInfo, setMovieInfo] = useState({});
+    const [isMovieInfoShown, setIsMovieInfoShown] = useState(false);
+    const [isAddMovieModalShown, toggleMovieModal] = useToggle(false);
+
+    const flag = useRef(true);
+
+    useEffect(() => {
+        if (flag.current) {
+            flag.current = false;
+        } else {
+            setIsMovieInfoShown(true)
         }
-    }
+    }, [movieInfo]);
 
-    handleToggleAddMovieModal = () => {
-        this.setState(prevState => ({
-            isAddMovieModalShown: !prevState.isAddMovieModalShown
-        }))
-    }
-
-    render() {
-        return (
-            <div className='container'>
-                <Header title='find your movie' toggleAddMovieModal={this.handleToggleAddMovieModal}/>
-                <ErrorBoundary>
-                    {this.state.isAddMovieModalShown &&
-                    <MovieModal toggleMovieModal={this.handleToggleAddMovieModal} text={'add movie'}/>}
-                    <Main/>
-                </ErrorBoundary>
-                <Footer/>
-            </div>
+    return (
+        <div className='container'>
+            {isMovieInfoShown ?
+                <MovieInfo movie={movieInfo} closeMovieInfo={setIsMovieInfoShown}/> :
+                <Header title='find your movie' toggleAddMovieModal={toggleMovieModal}/>
+            }
+            <ErrorBoundary>
+                {isAddMovieModalShown &&
+                <MovieModal toggleMovieModal={toggleMovieModal} text={'add movie'}/>}
+                <Main
+                    toggleMovieModal={toggleMovieModal}
+                    useToggle={useToggle}
+                    setMovieInfo={setMovieInfo}
+                    showMovieInfoShown={setIsMovieInfoShown}
+                    movieInfo={movieInfo}
+                />
+            </ErrorBoundary>
+            <Footer/>
+        </div>
     );
-    }
 }
 
 export default Homepage;

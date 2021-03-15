@@ -1,51 +1,41 @@
-import React, {Component} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+
 import { mockedMovies } from './Consts';
-import MovieCard from "./MovieCard";
-import {MovieModal} from "./MovieModal";
+import { MovieCard } from "./MovieCard";
+import { MovieModal } from "./MovieModal";
 
-class Main extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            isEditMovieModalShown: false,
-            isDeleteModalShown:false,
-        }
-    }
+export const Main = ({ useToggle, setMovieInfo, showMovieInfo }) => {
+    const [isEditMovieModalShown, toggleEditMovieModal] = useToggle(false);
+    const [isDeleteModalShown, toggleDeleteMovieModal] = useToggle(false);
 
-    toggleModal = (name) => {
-        this.setState(prevState => ({
-            [name]: !prevState[name]
-        }))
-    }
+    return (
+        <>
+            <div className="movie-list">
+                {mockedMovies.map(movie =>
+                    <MovieCard
+                        key={movie.id}
+                        movie={movie}
+                        toggleEditMovieModal={toggleEditMovieModal}
+                        toggleDeleteMovieModal={toggleDeleteMovieModal}
+                        useToggle={useToggle}
+                        setMovieInfo={setMovieInfo}
+                        showMovieInfo={showMovieInfo}
+                    />
+                )}
+            </div>
+            {isEditMovieModalShown &&
+            <MovieModal toggleMovieModal={toggleEditMovieModal} text={'edit movie'} isEdit/>}
+            {isDeleteModalShown &&
+            <MovieModal toggleMovieModal={toggleDeleteMovieModal} text={'delete movie'} isDelete/>}
+        </>
+    );
+}
 
-    handleToggleEditMovieModal = () => {
-        this.toggleModal('isEditMovieModalShown')
-    }
-
-    handleToggleDeleteModal = () => {
-        this.toggleModal('isDeleteModalShown')
-    }
-
-    render() {
-        return (
-            <>
-                <div className="movie-list">
-                    {mockedMovies.map(movie =>
-                        <MovieCard
-                            key={movie.id}
-                            movie={movie}
-                            toggleEditMovieModal={this.handleToggleEditMovieModal}
-                            toggleDeleteMovieModal={this.handleToggleDeleteModal}
-                        />
-                    )}
-                </div>
-                {this.state.isEditMovieModalShown &&
-                <MovieModal toggleMovieModal={this.handleToggleEditMovieModal} text={'edit movie'} isEdit/>}
-                {this.state.isDeleteModalShown &&
-                <MovieModal toggleMovieModal={this.handleToggleDeleteModal} text={'delete movie'} isDelete/>}
-            </>
-        );
-    }
+Main.prototypes = {
+    useToggle: PropTypes.func.isRequired,
+    setMovieInfo: PropTypes.func.isRequired,
+    showMovieInfo: PropTypes.func.isRequired,
 }
 
 export default Main;

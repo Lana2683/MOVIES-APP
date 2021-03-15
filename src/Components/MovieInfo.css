@@ -1,0 +1,42 @@
+.movie-info-container {
+    width: 1200px;
+    max-width: 1080px;
+    height: 389px;
+    background-color: #232323;
+    color: white;
+    margin-top: 26px;
+    padding: 6px 60px;
+    margin-bottom: 10px;
+}
+
+.nav-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.movie-info {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.movie-img {
+    width: 187px;
+    height: 263px;
+    background-color: #424242;
+    margin-right: 40px;
+}
+
+.movie-info-description {
+    width: 450px;
+}
+
+.search-icon {
+    float: right;
+    cursor: pointer;
+    color: #F65261;
+    font-size: 40px;
+}
