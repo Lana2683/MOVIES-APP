@@ -34,12 +34,7 @@ export const Homepage = () => {
             <ErrorBoundary>
                 {isAddMovieModalShown &&
                 <MovieModal toggleMovieModal={toggleMovieModal} text={'add movie'}/>}
-                <Main
-                    toggleMovieModal={toggleMovieModal}
-                    setMovieInfo={setMovieInfo}
-                    showMovieInfoShown={setIsMovieInfoShown}
-                    movieInfo={movieInfo}
-                />
+                <Main setMovieInfo={setMovieInfo}/>
             </ErrorBoundary>
             <Footer/>
         </div>

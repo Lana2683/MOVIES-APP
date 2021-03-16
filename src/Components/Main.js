@@ -5,7 +5,7 @@ import { mockedMovies, useToggle } from './Consts';
 import { MovieCard } from "./MovieCard";
 import { MovieModal } from "./MovieModal";
 
-export const Main = ({ setMovieInfo, showMovieInfo }) => {
+export const Main = ({ setMovieInfo }) => {
     const [isEditMovieModalShown, toggleEditMovieModal] = useToggle(false);
     const [isDeleteModalShown, toggleDeleteMovieModal] = useToggle(false);
 
@@ -19,7 +19,6 @@ export const Main = ({ setMovieInfo, showMovieInfo }) => {
                         toggleEditMovieModal={toggleEditMovieModal}
                         toggleDeleteMovieModal={toggleDeleteMovieModal}
                         setMovieInfo={setMovieInfo}
-                        showMovieInfo={showMovieInfo}
                     />
                 )}
             </div>
