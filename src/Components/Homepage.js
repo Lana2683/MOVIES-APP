@@ -1,38 +1,40 @@
-import React, {Component} from 'react';
+import React, { useState, useEffect } from 'react';
+
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import ErrorBoundary from './ErrorBoundary';
+import { MovieModal } from './MovieModal';
+import { MovieInfo } from './MovieInfo';
+import { useToggle } from './Consts';
+
 import './Homepage.css';
-import { MovieModal } from "./MovieModal";
 
-class Homepage extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            isAddMovieModalShown: false
+export const Homepage = () => {
+    const [movieInfo, setMovieInfo] = useState(null);
+    const [isMovieInfoShown, setIsMovieInfoShown] = useState(false);
+    const [isAddMovieModalShown, toggleMovieModal] = useToggle(false);
+
+    useEffect(() => {
+        if (movieInfo) {
+            setIsMovieInfoShown(true)
         }
-    }
+    }, [movieInfo]);
 
-    handleToggleAddMovieModal = () => {
-        this.setState(prevState => ({
-            isAddMovieModalShown: !prevState.isAddMovieModalShown
-        }))
-    }
-
-    render() {
-        return (
-            <div className='container'>
-                <Header title='find your movie' toggleAddMovieModal={this.handleToggleAddMovieModal}/>
-                <ErrorBoundary>
-                    {this.state.isAddMovieModalShown &&
-                    <MovieModal toggleMovieModal={this.handleToggleAddMovieModal} text={'add movie'}/>}
-                    <Main/>
-                </ErrorBoundary>
-                <Footer/>
-            </div>
+    return (
+        <div className='container'>
+            {isMovieInfoShown ?
+                <MovieInfo movie={movieInfo} closeMovieInfo={setIsMovieInfoShown}/> :
+                <Header title='find your movie' toggleAddMovieModal={toggleMovieModal}/>
+            }
+            <ErrorBoundary>
+                {isAddMovieModalShown &&
+                <MovieModal toggleMovieModal={toggleMovieModal} text={'add movie'}/>}
+                <Main setMovieInfo={setMovieInfo}/>
+            </ErrorBoundary>
+            <Footer/>
+        </div>
     );
-    }
 }
 
 export default Homepage;

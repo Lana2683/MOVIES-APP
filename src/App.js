@@ -1,5 +1,5 @@
 import React from 'react';
-import Homepage from './Components/Homepage.js';
+import { Homepage } from './Components/Homepage.js';
 
 export const App = () => <Homepage/>
 

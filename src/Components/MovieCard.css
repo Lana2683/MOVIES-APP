@@ -1,7 +1,8 @@
 .card {
-    height: 458px;
+    height: 460px;
     background-color: #555555;
     margin-bottom: 22px;
+    cursor: pointer;
 }
 
 .kebab-icon {
@@ -26,7 +27,7 @@
 }
 
 .movie {
-    width: 324px;
+    width: 325px;
     margin-bottom: 56px;
 }
 
@@ -43,7 +44,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 12px;
+    font-size: 16px;
     color: #BDBDBD;
 }
 
@@ -58,12 +59,32 @@
 }
 
 .card-menu {
-    width: 130px;
-    height: 76px;
+    width: 190px;
+    height: 110px;
     background-color: #232323;
     color: white;
     float: right;
-    margin-right: 15px;
+    margin: 15px;
+    font-size: 16px;
+    border-radius: 4px;
+}
+
+.close-menu {
+    padding: 2px 6px;
+}
+
+.action-list {
+    margin-top: 12px;
+    width: 100%;
+}
+
+.action-list span {
+    padding: 8px 20px;
+    cursor: pointer;
+}
+
+.action-list span:hover {
+    background-color: #F65261;
 }
 
 .flex {

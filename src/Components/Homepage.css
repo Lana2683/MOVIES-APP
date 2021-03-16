@@ -3,6 +3,12 @@ body {
     background-color: #555555
 }
 
+.logo {
+    font-size: 22px;
+    font-weight: 700;
+    color: #F65261;
+}
+
 .container {
     display: flex;
     flex-direction: column;
@@ -10,14 +16,18 @@ body {
 }
 
 .header {
-    width: 1200px;
-    height: 400px;
+    width: 1080px;
+    height: 360px;
     background-color: #232323;
     color: white;
     margin-top: 32px;
+    padding: 20px 60px;
+    margin-bottom: 10px;
+}
+
+.d-column {
     display: flex;
     flex-direction: column;
-    margin-bottom: 10px;
 }
 
 .title {
@@ -26,12 +36,12 @@ body {
 }
 
 .find-movie {
-    margin: 30px 0 42px 122px
+    margin: 30px 0 42px 60px
 }
 
 .search {
     display: flex;
-    margin-left: 122px;
+    margin-left: 60px;
     height: 58px;
 }
 
@@ -56,7 +66,6 @@ body {
     width: 180px;
     height: 48px;
     color: #F65261;
-    margin: 20px 58px 0 0;
     align-self: flex-end;
     cursor: pointer;
     background-color: #555555;
@@ -77,10 +86,10 @@ body {
 .movie-list {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-evenly;
-    padding-top: 32px;
+    justify-content: space-between;
     background-color: #232323;
-    width: 1200px;
+    width: 1080px;
+    padding: 60px;
 }
 
 .add-modal {
@@ -106,7 +115,6 @@ body {
     margin: auto;
     background-color: #232323;
 }
-
 
 .modal-content li {
     list-style-type: none;
@@ -162,9 +170,12 @@ body {
 }
 
 .close-modal {
-    font-size: 32px;
     cursor: pointer;
     float: right;
+}
+
+.font-size-bg {
+    font-size: 32px;
 }
 
 footer {

@@ -7,7 +7,7 @@ export const MovieModal = ({ text, isEdit, isDelete, toggleMovieModal }) => (
     <div className="add-modal">
 
         <form className="modal-content">
-            <span className="close-modal" onClick={toggleMovieModal}>&#x2715;</span>
+            <span className="close-modal font-size-bg" onClick={toggleMovieModal}>&#x2715;</span>
             <ul>
                 <span className="title">{text.toUpperCase()}</span>
                 {isEdit && (

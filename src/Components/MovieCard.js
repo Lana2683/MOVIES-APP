@@ -1,60 +1,59 @@
-import React, {Component} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-import './MoveCard.css';
+import { useToggle } from './Consts';
 
-class MovieCard extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            isMenuShown: false,
-        }
+import './MovieCard.css';
+
+export const MovieCard = ({
+     movie,
+     toggleEditMovieModal,
+     toggleDeleteMovieModal,
+     setMovieInfo,
+    }) => {
+    const [isMenuShown, toggleMenu] = useToggle(false);
+
+    const showEditModal = () => {
+        toggleEditMovieModal();
+        toggleMenu()
     }
 
-    showMenu = () => {
-        this.setState({ isMenuShown: true })
+    const showDeleteModal = () => {
+        toggleDeleteMovieModal();
+        toggleMenu();
     }
 
-    showEditModal = () => {
-        this.props.toggleEditMovieModal();
-        this.setState({ isMenuShown: false })
-    }
-
-    showDeleteModal = () => {
-        this.props.toggleDeleteMovieModal();
-        this.setState({ isMenuShown: false })
-    }
-
-    render() {
-        const { movie } = this.props;
-        return (
-            <div className="d-column movie">
-                <div className="card">
-                    {this.state.isMenuShown ? (
-                        <ul className="card-menu">
-                            <li onClick={this.showEditModal}>Edit</li>
-                            <li onClick={this.showDeleteModal}>Delete</li>
-                        </ul>
-                    ) : (
-                        <span className="kebab-icon" onClick={this.showMenu}>&#8942;</span>
-                    )}
-                </div>
-                <div className="description">
-                    <div className="d-column">
-                        <span className="movie-name">{movie.name}</span>
-                        <span className="movie-genre">{movie.genre}</span>
+    return (
+        <div className="d-column movie">
+            <div className="card" onClick={() => setMovieInfo(movie)}>
+                {isMenuShown ? (
+                    <div className="card-menu">
+                        <span className="close-modal close-menu" onClick={toggleMenu}>&#x2715;</span>
+                        <div className="action-list d-column">
+                            <span onClick={showEditModal}>Edit</span>
+                            <span onClick={showDeleteModal}>Delete</span>
+                        </div>
                     </div>
-                    <div className="year">{movie.year}</div>
-                </div>
+                ) : (
+                    <span className="kebab-icon" onClick={toggleMenu}>&#8942;</span>
+                )}
             </div>
-        );
-    }
+            <div className="description">
+                <div className="d-column">
+                    <span className="movie-name">{movie.name}</span>
+                    <span className="movie-genre">{movie.genre}</span>
+                </div>
+                <div className="year">{movie.year}</div>
+            </div>
+        </div>
+    );
 }
 
 MovieCard.prototypes = {
     movie: PropTypes.object.isRequired,
     toggleEditMovieModal: PropTypes.func.isRequired,
     toggleDeleteMovieModal: PropTypes.func.isRequired,
+    setMovieInfo: PropTypes.func.isRequired,
 }
 
 export default MovieCard;
