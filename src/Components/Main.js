@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { mockedMovies } from './Consts';
+import { mockedMovies, useToggle } from './Consts';
 import { MovieCard } from "./MovieCard";
 import { MovieModal } from "./MovieModal";
 
-export const Main = ({ useToggle, setMovieInfo, showMovieInfo }) => {
+export const Main = ({ setMovieInfo, showMovieInfo }) => {
     const [isEditMovieModalShown, toggleEditMovieModal] = useToggle(false);
     const [isDeleteModalShown, toggleDeleteMovieModal] = useToggle(false);
 
@@ -18,7 +18,6 @@ export const Main = ({ useToggle, setMovieInfo, showMovieInfo }) => {
                         movie={movie}
                         toggleEditMovieModal={toggleEditMovieModal}
                         toggleDeleteMovieModal={toggleDeleteMovieModal}
-                        useToggle={useToggle}
                         setMovieInfo={setMovieInfo}
                         showMovieInfo={showMovieInfo}
                     />
@@ -33,7 +32,6 @@ export const Main = ({ useToggle, setMovieInfo, showMovieInfo }) => {
 }
 
 Main.prototypes = {
-    useToggle: PropTypes.func.isRequired,
     setMovieInfo: PropTypes.func.isRequired,
     showMovieInfo: PropTypes.func.isRequired,
 }

@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { useToggle } from './Consts';
+
 import './MovieCard.css';
 
 export const MovieCard = ({
      movie,
      toggleEditMovieModal,
      toggleDeleteMovieModal,
-     useToggle,
      setMovieInfo,
     }) => {
     const [isMenuShown, toggleMenu] = useToggle(false);

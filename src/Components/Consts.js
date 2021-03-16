@@ -1,3 +1,6 @@
+import React, { useState, useCallback } from 'react';
+
+
 export const mockedMovies = [
     {
         id: 1,
@@ -60,3 +63,12 @@ export const mockedMovies = [
                       maiores nisi non sed tempore. Accusamus Accusamus?`
     },
 ]
+
+export const useToggle = (isComponentShown = false) => {
+    const [flag, setFlag] = useState(isComponentShown);
+
+    const toggle = useCallback(() => {
+        setFlag(prev => !prev)
+    }, [flag])
+    return [flag, toggle]
+}
