@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Header from './Header';
 import Main from './Main';
@@ -14,8 +14,6 @@ export const Homepage = () => {
     const [movieInfo, setMovieInfo] = useState(null);
     const [isMovieInfoShown, setIsMovieInfoShown] = useState(false);
     const [isAddMovieModalShown, toggleMovieModal] = useToggle(false);
-
-    const flag = useRef(true);
 
     useEffect(() => {
         if (movieInfo) {
