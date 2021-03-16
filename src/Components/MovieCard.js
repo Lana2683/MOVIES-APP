@@ -53,7 +53,6 @@ MovieCard.prototypes = {
     movie: PropTypes.object.isRequired,
     toggleEditMovieModal: PropTypes.func.isRequired,
     toggleDeleteMovieModal: PropTypes.func.isRequired,
-    useToggle: PropTypes.func.isRequired,
     setMovieInfo: PropTypes.func.isRequired,
 }
 
