@@ -11,16 +11,14 @@ import { useToggle } from './Consts';
 import './Homepage.css';
 
 export const Homepage = () => {
-    const [movieInfo, setMovieInfo] = useState({});
+    const [movieInfo, setMovieInfo] = useState(null);
     const [isMovieInfoShown, setIsMovieInfoShown] = useState(false);
     const [isAddMovieModalShown, toggleMovieModal] = useToggle(false);
 
     const flag = useRef(true);
 
     useEffect(() => {
-        if (flag.current) {
-            flag.current = false;
-        } else {
+        if (movieInfo) {
             setIsMovieInfoShown(true)
         }
     }, [movieInfo]);
