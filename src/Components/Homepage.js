@@ -4,7 +4,7 @@ import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import ErrorBoundary from './ErrorBoundary';
-import { MovieModal } from './MovieModal';
+import MovieModal from './MovieModal';
 import { MovieInfo } from './MovieInfo';
 import { useToggle } from './Consts';
 

@@ -28,6 +28,7 @@
     height: 263px;
     background-color: #424242;
     margin-right: 40px;
+    background-size: cover;
 }
 
 .movie-info-description {

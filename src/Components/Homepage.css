@@ -83,13 +83,42 @@ body {
     outline: none;
 }
 
+.main {
+    display: flex;
+    flex-direction: column;
+    background-color: #232323;
+    width: 1080px;
+    padding: 60px;
+}
+
+.nav-bar {
+    display: flex;
+    justify-content: space-between;
+    color: white;
+    font-size: 20px;
+}
+
+.nav-item {
+    cursor: pointer;
+    margin-right: 24px;
+}
+
+.nav-item-sort {
+    margin-right: 20px;
+    color: #555555;
+}
+
+.nav-item-dropdown {
+    border: none;
+    background-color: #232323;
+    font-size: 20px;
+    color: white;
+}
+
 .movie-list {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    background-color: #232323;
-    width: 1080px;
-    padding: 60px;
 }
 
 .add-modal {

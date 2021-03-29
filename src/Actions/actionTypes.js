@@ -1,0 +1,11 @@
+const actionTypes = {
+    GET_MOVIES: 'GET_MOVIES',
+    GET_MOVIE: 'GET_MOVIE',
+    UPDATE_MOVIE: 'UPDATE_MOVIE',
+    ADD_MOVIE: 'ADD_MOVIE',
+    DELETE_MOVIE: 'DELETE_MOVIE',
+    SORT_MOVIES: 'SORT_MOVIES',
+    FILTER_MOVIES: 'FILTER_MOVIES'
+};
+
+export default actionTypes;
