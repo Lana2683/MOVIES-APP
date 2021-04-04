@@ -11,12 +11,12 @@ export const MovieInfo = ({ movie, closeMovieInfo }) => (
         </div>
 
         <div className="movie-info">
-            <div className="movie-img"/>
+            <div className="movie-img" style={{ backgroundImage:  `url('${movie.poster_path}')`}}/>
             <div className="d-column movie-info-block">
-                <span className="movie-info-name">{movie.name}</span>
-                <span className="movie-info-genre">{movie.genre}</span>
-                <span className="movie-info-year">{movie.year}</span>
-                <span className="movie-info-description">{movie.description}</span>
+                <span className="movie-info-name">{movie.title}</span>
+                <span className="movie-info-genre">{movie.genres}</span>
+                <span className="movie-info-year">{movie.release_date}</span>
+                <span className="movie-info-description">{movie.overview}</span>
             </div>
         </div>
     </div>
