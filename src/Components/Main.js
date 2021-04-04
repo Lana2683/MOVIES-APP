@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { useToggle } from './Consts';
+import { FILTERS, useToggle } from './Consts';
 import MovieCard from "./MovieCard";
 import MovieModal from "./MovieModal";
 
@@ -46,10 +46,9 @@ const Main = ({ setMovieInfo, moviesList, getMovies, sortMovies, sortedMoviesLis
             <nav className="nav-bar">
                 <div>
                     <span className="nav-item" onClick={() => selectAll()}>ALL</span>
-                    <span className="nav-item" onClick={() => filterItem('Documentary')}>DOCUMENTARY</span>
-                    <span className="nav-item" onClick={() => filterItem('Comedy')}>COMEDY</span>
-                    <span className="nav-item" onClick={() => filterItem('Horror')}>HORROR</span>
-                    <span className="nav-item" onClick={() => filterItem('Crime')}>CRIME</span>
+                    {FILTERS.map(item => (
+                        <span key={item} className="nav-item" onClick={() => filterItem(item)}>{item.toUpperCase()}</span>)
+                    )}
                 </div>
                 <div>
                     <span className="nav-item-sort">SORT BY</span>

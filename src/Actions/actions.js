@@ -12,8 +12,10 @@ const {
     FILTER_MOVIES,
 } = actionTypes;
 
+const API = 'http://localhost:4000/'
+
 export const getMovies = () => async dispatch => {
-    const res = await axios.get('http://localhost:4000/movies')
+    const res = await axios.get(`${API}movies/`)
     dispatch({
         type: GET_MOVIES,
         payload: res.data.data
@@ -21,7 +23,7 @@ export const getMovies = () => async dispatch => {
 }
 
 export const getMovie = (id) => async dispatch => {
-    const res = await axios.get(`http://localhost:4000/movies/${id}`);
+    const res = await axios.get(`${API}movies/${id}`);
     dispatch({
         type: GET_MOVIE,
         payload: res.data
@@ -29,7 +31,7 @@ export const getMovie = (id) => async dispatch => {
 }
 
 export const updateMovie = (movie) => async dispatch => {
-    const res = await axios.put('http://localhost:4000/movies/', movie);
+    const res = await axios.put(`${API}movies`, movie);
     dispatch({
         type: UPDATE_MOVIE,
         payload: res.data
@@ -37,7 +39,7 @@ export const updateMovie = (movie) => async dispatch => {
 };
 
 export const addMovie = (movie) => async dispatch => {
-    const res = await axios.post('http://localhost:4000/movies', movie);
+    const res = await axios.post(`${API}movies`, movie);
     dispatch({
         type: ADD_MOVIE,
         payload: res.data
@@ -45,7 +47,7 @@ export const addMovie = (movie) => async dispatch => {
 }
 
 export const deleteMovie = (id) => async dispatch => {
-    await axios.delete(`http://localhost:4000/movies/${id}`);
+    await axios.delete(`${API}movies/${id}`);
     dispatch({
         type: DELETE_MOVIE,
         payload: id

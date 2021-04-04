@@ -17,13 +17,13 @@ const MovieCard = ({
     const [isMenuShown, toggleMenu] = useToggle(false);
 
     const showEditModal = (id) => {
-        getMovie(id)
+        getMovie(id);
         toggleEditMovieModal();
         toggleMenu();
     }
 
     const showDeleteModal = (id) => {
-        getMovie(id)
+        getMovie(id);
         toggleDeleteMovieModal();
         toggleMenu();
     }
@@ -63,10 +63,8 @@ MovieCard.prototypes = {
     getMovie: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = () => ({});
-
 const mapDispatchToProps = {
     getMovie
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MovieCard);
+export default connect(() => ({}), mapDispatchToProps)(MovieCard);

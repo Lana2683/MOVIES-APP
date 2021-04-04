@@ -66,7 +66,6 @@ const MovieModal = ({ movie, text, isEdit, isDelete, toggleMovieModal, updateMov
                                 <TextInput
                                     name="title"
                                     title="title"
-                                    type="text"
                                     placeholder="Select Title"
                                     value={title}
                                     onChange={setTitle}
@@ -76,7 +75,6 @@ const MovieModal = ({ movie, text, isEdit, isDelete, toggleMovieModal, updateMov
                                 <TextInput
                                     name="release_date"
                                     title="release date"
-                                    type="text"
                                     placeholder="Select Date"
                                     value={release_date}
                                     onChange={setRelease_date}
@@ -86,7 +84,6 @@ const MovieModal = ({ movie, text, isEdit, isDelete, toggleMovieModal, updateMov
                                 <TextInput
                                     name="poster_path"
                                     title="movie url"
-                                    type="text"
                                     placeholder="Movie URL here"
                                     value={poster_path}
                                     onChange={setPoster_path}
@@ -116,7 +113,6 @@ const MovieModal = ({ movie, text, isEdit, isDelete, toggleMovieModal, updateMov
                                 <TextInput
                                     name="runtime"
                                     title="runtime"
-                                    type="text"
                                     placeholder="Runtime here"
                                     value={runtime}
                                     onChange={setRuntime}
