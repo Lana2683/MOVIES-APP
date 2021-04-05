@@ -1,59 +1,91 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from "react-redux";
+import { useFormik } from 'formik';
 
 import { TextInput } from './TextInput';
 import { updateMovie, addMovie, deleteMovie } from '../Actions/actions'
 
+const validate = values => {
+    const errors = {};
+    if (!values.title) {
+        errors.title = 'Required';
+    } else if (values.title.length > 20) {
+        errors.title = 'Must be 20 characters or less';
+    }
+
+    if (!values.release_date) {
+        errors.release_date = 'Required';
+    } else if (!/^([0-9]{2})-([0-9]{2})-([0-9]{4})$/.test(values.release_date)) {
+        errors.release_date = 'Date format is DD/MM/YYYY';
+    }
+
+    if (!values.poster_path) {
+        errors.poster_path = 'Required';
+    } else if (!/((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/.test(values.poster_path)) {
+        errors.poster_path = 'Invalid poster path';
+    }
+
+    if (!values.genres) {
+        errors.genres = 'Required';
+    } else if (values.genres.length > 20) {
+        errors.genres = 'Must be 20 characters or less';
+    }
+
+    if (!values.overview) {
+        errors.overview = 'Required';
+    } else if (values.overview.length > 150) {
+        errors.overview = 'Must be 150 characters or less';
+    }
+
+    if (!values.runtime) {
+        errors.runtime = 'Required';
+    } else if (typeof values.runtime !== "number") {
+        errors.runtime = 'Only numbers are allowed';
+    }
+    return errors;
+};
+
 const MovieModal = ({ movie, text, isEdit, isDelete, toggleMovieModal, updateMovie, addMovie }) => {
-    const [title, setTitle] = useState('');
-    const [release_date, setRelease_date] = useState('');
-    const [poster_path, setPoster_path] = useState('');
-    const [genres, setGenres] = useState('');
-    const [overview, setOverview] = useState('');
-    const [runtime, setRuntime] = useState('');
-    const [id, setMovieId] = useState(null);
+    const form = useFormik({
+        initialValues: {
+            title: '',
+            release_date: '',
+            poster_path: '',
+            genres: '',
+            overview: '',
+            runtime: '',
+            id: '',
+        },
+        validate,
+        onSubmit: values => {
+            isEdit ? updateMovie({...movie, ...values}) : addMovie(values);
+            toggleMovieModal();
+        },
+    });
 
     useEffect(() => {
         if (isEdit) {
-            setTitle(movie.title);
-            setRelease_date(movie.release_date);
-            setPoster_path(movie.poster_path);
-            setGenres(movie.genres);
-            setOverview(movie.overview);
-            setRuntime(movie.runtime);
-            setMovieId(movie.id)
+            form.values.title = movie.title;
+            form.values.release_date = movie.release_date;
+            form.values.poster_path = movie.poster_path;
+            form.values.genres = movie.genres;
+            form.values.overview = movie.overview;
+            form.values.runtime = movie.runtime;
+            form.values.id = movie.id;
         }
     }, [movie])
 
-    const onConfirm = () => {
-        const newMovie = {
-            id,
-            title,
-            release_date,
-            poster_path,
-            genres,
-            overview,
-            runtime,
-        };
-        const updatedMovie = {
-            ...movie,
-            ...newMovie
-        };
-        isEdit ? updateMovie(updatedMovie) : addMovie(newMovie);
-        toggleMovieModal()
-    }
-
     return (
         <div className="add-modal">
-            <div className="modal-content">
+            <form onSubmit={form.handleSubmit} className="modal-content">
                 <span className="close-modal font-size-bg" onClick={toggleMovieModal}>&#x2715;</span>
                 <ul>
                     <span className="title">{text.toUpperCase()}</span>
                     {isEdit && (
                         <li className="first-input text-input">
                             <span className="label">MOVIE ID</span>
-                            <span>{id}</span>
+                            <span>{form.values.id}</span>
                         </li>
                     )}
                     {isDelete ? (
@@ -67,27 +99,30 @@ const MovieModal = ({ movie, text, isEdit, isDelete, toggleMovieModal, updateMov
                                     name="title"
                                     title="title"
                                     placeholder="Select Title"
-                                    value={title}
-                                    onChange={setTitle}
+                                    value={form.values.title}
+                                    onChange={form.handleChange}
                                 />
+                                {form.errors.title ? <div>{form.errors.title}</div> : null}
                             </li>
                             <li>
                                 <TextInput
                                     name="release_date"
                                     title="release date"
                                     placeholder="Select Date"
-                                    value={release_date}
-                                    onChange={setRelease_date}
+                                    value={form.values.release_date}
+                                    onChange={form.handleChange}
                                 />
+                                {form.errors.release_date ? <div>{form.errors.release_date}</div> : null}
                             </li>
                             <li>
                                 <TextInput
                                     name="poster_path"
                                     title="movie url"
                                     placeholder="Movie URL here"
-                                    value={poster_path}
-                                    onChange={setPoster_path}
+                                    value={form.values.poster_path}
+                                    onChange={form.handleChange}
                                 />
+                                {form.errors.poster_path ? <div>{form.errors.poster_path}</div> : null}
                             </li>
                             <li>
                                 <TextInput
@@ -95,9 +130,10 @@ const MovieModal = ({ movie, text, isEdit, isDelete, toggleMovieModal, updateMov
                                     title="genre"
                                     type="select"
                                     placeholder="Select Genre"
-                                    value={genres}
-                                    onChange={setGenres}
+                                    value={form.values.genres}
+                                    onChange={form.handleChange}
                                 />
+                                {form.errors.genres ? <div>{form.errors.genres}</div> : null}
                             </li>
                             <li>
                                 <TextInput
@@ -105,18 +141,20 @@ const MovieModal = ({ movie, text, isEdit, isDelete, toggleMovieModal, updateMov
                                     title="overview"
                                     type="textarea"
                                     placeholder="Overview here"
-                                    value={overview}
-                                    onChange={setOverview}
+                                    value={form.values.overview}
+                                    onChange={form.handleChange}
                                 />
+                                {form.errors.overview ? <div>{form.errors.overview}</div> : null}
                             </li>
                             <li>
                                 <TextInput
                                     name="runtime"
                                     title="runtime"
                                     placeholder="Runtime here"
-                                    value={runtime}
-                                    onChange={setRuntime}
+                                    value={form.values.runtime}
+                                    onChange={form.handleChange}
                                 />
+                                {form.errors.runtime ? <div>{form.errors.runtime}</div> : null}
                             </li>
                         </>
                     )}
@@ -127,11 +165,11 @@ const MovieModal = ({ movie, text, isEdit, isDelete, toggleMovieModal, updateMov
                     ) : (
                         <>
                             <button className="rst-btn border-r">RESET</button>
-                            <button className="sbmt-btn border-r" onClick={onConfirm}>CONFIRM</button>
+                            <button type="submit" className="sbmt-btn border-r">CONFIRM</button>
                         </>
                     )}
                 </div>
-            </div>
+            </form>
         </div>
     );
 }
