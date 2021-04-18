@@ -1,80 +1,50 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
-import { TextInput } from './TextInput';
-import { updateMovie, addMovie, deleteMovie } from '../Actions/actions'
-
-const validate = values => {
-    const errors = {};
-    if (!values.title) {
-        errors.title = 'Required';
-    } else if (values.title.length > 20) {
-        errors.title = 'Must be 20 characters or less';
-    }
-
-    if (!values.release_date) {
-        errors.release_date = 'Required';
-    } else if (!/^([0-9]{2})-([0-9]{2})-([0-9]{4})$/.test(values.release_date)) {
-        errors.release_date = 'Date format is DD/MM/YYYY';
-    }
-
-    if (!values.poster_path) {
-        errors.poster_path = 'Required';
-    } else if (!/((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/.test(values.poster_path)) {
-        errors.poster_path = 'Invalid poster path';
-    }
-
-    if (!values.genres) {
-        errors.genres = 'Required';
-    } else if (values.genres.length > 20) {
-        errors.genres = 'Must be 20 characters or less';
-    }
-
-    if (!values.overview) {
-        errors.overview = 'Required';
-    } else if (values.overview.length > 150) {
-        errors.overview = 'Must be 150 characters or less';
-    }
-
-    if (!values.runtime) {
-        errors.runtime = 'Required';
-    } else if (typeof values.runtime !== "number") {
-        errors.runtime = 'Only numbers are allowed';
-    }
-    return errors;
-};
+import { updateMovie, addMovie, deleteMovie } from '../Actions/actions';
 
 const MovieModal = ({ movie, text, isEdit, isDelete, toggleMovieModal, updateMovie, addMovie }) => {
     const form = useFormik({
+        enableReinitialize: true,
         initialValues: {
-            title: '',
-            release_date: '',
-            poster_path: '',
-            genres: '',
-            overview: '',
-            runtime: '',
-            id: '',
+            title: isEdit ? movie.title : '',
+            release_date: isEdit ? movie.release_date : '',
+            poster_path: isEdit ? movie.poster_path : '',
+            genres: isEdit ? movie.genres : '',
+            overview: isEdit ? movie.overview : '',
+            runtime: isEdit ? movie.runtime : '',
+            id: isEdit ? movie.id : '',
         },
-        validate,
+        validationSchema: Yup.object({
+                title: Yup.string()
+                    .min(2, 'Must be from 2 to 20 characters')
+                    .max(20, 'Must be from 2 to 20 characters')
+                    .required('Required'),
+                release_date: Yup.date()
+                    .max(new Date(), 'Date must be earlier than now')
+                    .required('Required'),
+                poster_path: Yup.string()
+                    .matches(
+                        /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+                        'Enter correct url!'
+                    ),
+                genres: Yup.string()
+                    .max(20, 'Must be 20 characters or less')
+                    .required('Required'),
+                overview: Yup.string()
+                    .max(250, 'Must be 250 characters or less')
+                    .required('Required'),
+                runtime: Yup.number()
+                    .required('Required'),
+            }),
         onSubmit: values => {
             isEdit ? updateMovie({...movie, ...values}) : addMovie(values);
             toggleMovieModal();
         },
     });
-
-    useEffect(() => {
-        if (isEdit) {
-            form.values.title = movie.title;
-            form.values.release_date = movie.release_date;
-            form.values.poster_path = movie.poster_path;
-            form.values.genres = movie.genres;
-            form.values.overview = movie.overview;
-            form.values.runtime = movie.runtime;
-            form.values.id = movie.id;
-        }
-    }, [movie])
 
     return (
         <div className="add-modal">
@@ -95,66 +65,95 @@ const MovieModal = ({ movie, text, isEdit, isDelete, toggleMovieModal, updateMov
                     ) : (
                         <>
                             <li className={!isEdit ? 'first-input' : ''}>
-                                <TextInput
-                                    name="title"
-                                    title="title"
-                                    placeholder="Select Title"
-                                    value={form.values.title}
-                                    onChange={form.handleChange}
-                                />
-                                {form.errors.title ? <div>{form.errors.title}</div> : null}
+                                <div className="text-input">
+                                    <span className="label">TITLE</span>
+                                    <input
+                                        name="title"
+                                        placeholder="Select Title"
+                                        value={form.values.title}
+                                        onChange={form.handleChange}
+                                        className="input"
+                                    />
+                                    {form.touched.title && form.errors.title ? (
+                                        <div>{form.errors.title}</div>
+                                    ) : null}
+                                </div>
                             </li>
                             <li>
-                                <TextInput
-                                    name="release_date"
-                                    title="release date"
-                                    placeholder="Select Date"
-                                    value={form.values.release_date}
-                                    onChange={form.handleChange}
-                                />
-                                {form.errors.release_date ? <div>{form.errors.release_date}</div> : null}
+                                <div className="text-input">
+                                    <span className="label">RELEASE DATE</span>
+                                    <input
+                                        name="release_date"
+                                        placeholder="Select Date"
+                                        value={form.values.release_date}
+                                        onChange={form.handleChange}
+                                        className="input"
+                                    />
+                                    {form.touched.release_date && form.errors.release_date ? (
+                                        <div>{form.errors.release_date}</div>
+                                    ) : null}
+                                </div>
                             </li>
                             <li>
-                                <TextInput
-                                    name="poster_path"
-                                    title="movie url"
-                                    placeholder="Movie URL here"
-                                    value={form.values.poster_path}
-                                    onChange={form.handleChange}
-                                />
-                                {form.errors.poster_path ? <div>{form.errors.poster_path}</div> : null}
+                                <div className="text-input">
+                                    <span className="label">MOVIE URL</span>
+                                    <input
+                                        name="poster_path"
+                                        placeholder="Movie URL here"
+                                        value={form.values.poster_path}
+                                        onChange={form.handleChange}
+                                        className="input"
+                                    />
+                                    {form.touched.poster_path && form.errors.poster_path ? (
+                                        <div>{form.errors.poster_path}</div>
+                                    ) : null}
+                                </div>
                             </li>
                             <li>
-                                <TextInput
-                                    name="genres"
-                                    title="genre"
-                                    type="select"
-                                    placeholder="Select Genre"
-                                    value={form.values.genres}
-                                    onChange={form.handleChange}
-                                />
-                                {form.errors.genres ? <div>{form.errors.genres}</div> : null}
+                                <div className="text-input">
+                                    <span className="label">GENRE</span>
+                                    <input
+                                        name="genres"
+                                        type="select"
+                                        placeholder="Select Genre"
+                                        value={form.values.genres}
+                                        onChange={form.handleChange}
+                                        className="input"
+                                    />
+                                    {form.touched.genres && form.errors.genres ? (
+                                        <div>{form.errors.genres}</div>
+                                    ) : null}
+                                </div>
                             </li>
                             <li>
-                                <TextInput
-                                    name="overview"
-                                    title="overview"
-                                    type="textarea"
-                                    placeholder="Overview here"
-                                    value={form.values.overview}
-                                    onChange={form.handleChange}
-                                />
-                                {form.errors.overview ? <div>{form.errors.overview}</div> : null}
+                                <div className="text-input">
+                                    <span className="label">OVERVIEW</span>
+                                    <textarea
+                                        name="overview"
+                                        placeholder="Overview here"
+                                        value={form.values.overview}
+                                        onChange={form.handleChange}
+                                        className="input"
+                                    />
+                                    {form.touched.overview && form.errors.overview ? (
+                                        <div>{form.errors.overview}</div>
+                                    ) : null}
+                                </div>
                             </li>
                             <li>
-                                <TextInput
-                                    name="runtime"
-                                    title="runtime"
-                                    placeholder="Runtime here"
-                                    value={form.values.runtime}
-                                    onChange={form.handleChange}
-                                />
-                                {form.errors.runtime ? <div>{form.errors.runtime}</div> : null}
+                                <div className="text-input">
+                                    <span className="label">RUNTIME</span>
+                                    <input
+                                        name="runtime"
+                                        placeholder="Runtime here"
+                                        value={form.values.runtime}
+                                        onChange={form.handleChange}
+                                        className="input"
+                                    />
+                                    {form.touched.runtime && form.errors.runtime ? (
+                                        <div>{form.errors.runtime}</div>
+                                    ) : null}
+                                </div>
                             </li>
                         </>
                     )}
