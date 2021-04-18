@@ -1,59 +1,61 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from "react-redux";
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
-import { TextInput } from './TextInput';
-import { updateMovie, addMovie, deleteMovie } from '../Actions/actions'
+import { updateMovie, addMovie, deleteMovie } from '../Actions/actions';
 
 const MovieModal = ({ movie, text, isEdit, isDelete, toggleMovieModal, updateMovie, addMovie }) => {
-    const [title, setTitle] = useState('');
-    const [release_date, setRelease_date] = useState('');
-    const [poster_path, setPoster_path] = useState('');
-    const [genres, setGenres] = useState('');
-    const [overview, setOverview] = useState('');
-    const [runtime, setRuntime] = useState('');
-    const [id, setMovieId] = useState(null);
-
-    useEffect(() => {
-        if (isEdit) {
-            setTitle(movie.title);
-            setRelease_date(movie.release_date);
-            setPoster_path(movie.poster_path);
-            setGenres(movie.genres);
-            setOverview(movie.overview);
-            setRuntime(movie.runtime);
-            setMovieId(movie.id)
-        }
-    }, [movie])
-
-    const onConfirm = () => {
-        const newMovie = {
-            id,
-            title,
-            release_date,
-            poster_path,
-            genres,
-            overview,
-            runtime,
-        };
-        const updatedMovie = {
-            ...movie,
-            ...newMovie
-        };
-        isEdit ? updateMovie(updatedMovie) : addMovie(newMovie);
-        toggleMovieModal()
-    }
+    const form = useFormik({
+        enableReinitialize: true,
+        initialValues: {
+            title: isEdit ? movie.title : '',
+            release_date: isEdit ? movie.release_date : '',
+            poster_path: isEdit ? movie.poster_path : '',
+            genres: isEdit ? movie.genres : '',
+            overview: isEdit ? movie.overview : '',
+            runtime: isEdit ? movie.runtime : '',
+            id: isEdit ? movie.id : '',
+        },
+        validationSchema: Yup.object({
+                title: Yup.string()
+                    .min(2, 'Must be from 2 to 20 characters')
+                    .max(20, 'Must be from 2 to 20 characters')
+                    .required('Required'),
+                release_date: Yup.date()
+                    .max(new Date(), 'Date must be earlier than now')
+                    .required('Required'),
+                poster_path: Yup.string()
+                    .matches(
+                        /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+                        'Enter correct url!'
+                    ),
+                genres: Yup.string()
+                    .max(20, 'Must be 20 characters or less')
+                    .required('Required'),
+                overview: Yup.string()
+                    .max(250, 'Must be 250 characters or less')
+                    .required('Required'),
+                runtime: Yup.number()
+                    .required('Required'),
+            }),
+        onSubmit: values => {
+            isEdit ? updateMovie({...movie, ...values}) : addMovie(values);
+            toggleMovieModal();
+        },
+    });
 
     return (
         <div className="add-modal">
-            <div className="modal-content">
+            <form onSubmit={form.handleSubmit} className="modal-content">
                 <span className="close-modal font-size-bg" onClick={toggleMovieModal}>&#x2715;</span>
                 <ul>
                     <span className="title">{text.toUpperCase()}</span>
                     {isEdit && (
                         <li className="first-input text-input">
                             <span className="label">MOVIE ID</span>
-                            <span>{id}</span>
+                            <span>{form.values.id}</span>
                         </li>
                     )}
                     {isDelete ? (
@@ -63,60 +65,95 @@ const MovieModal = ({ movie, text, isEdit, isDelete, toggleMovieModal, updateMov
                     ) : (
                         <>
                             <li className={!isEdit ? 'first-input' : ''}>
-                                <TextInput
-                                    name="title"
-                                    title="title"
-                                    placeholder="Select Title"
-                                    value={title}
-                                    onChange={setTitle}
-                                />
+                                <div className="text-input">
+                                    <span className="label">TITLE</span>
+                                    <input
+                                        name="title"
+                                        placeholder="Select Title"
+                                        value={form.values.title}
+                                        onChange={form.handleChange}
+                                        className="input"
+                                    />
+                                    {form.touched.title && form.errors.title ? (
+                                        <div>{form.errors.title}</div>
+                                    ) : null}
+                                </div>
                             </li>
                             <li>
-                                <TextInput
-                                    name="release_date"
-                                    title="release date"
-                                    placeholder="Select Date"
-                                    value={release_date}
-                                    onChange={setRelease_date}
-                                />
+                                <div className="text-input">
+                                    <span className="label">RELEASE DATE</span>
+                                    <input
+                                        name="release_date"
+                                        placeholder="Select Date"
+                                        value={form.values.release_date}
+                                        onChange={form.handleChange}
+                                        className="input"
+                                    />
+                                    {form.touched.release_date && form.errors.release_date ? (
+                                        <div>{form.errors.release_date}</div>
+                                    ) : null}
+                                </div>
                             </li>
                             <li>
-                                <TextInput
-                                    name="poster_path"
-                                    title="movie url"
-                                    placeholder="Movie URL here"
-                                    value={poster_path}
-                                    onChange={setPoster_path}
-                                />
+                                <div className="text-input">
+                                    <span className="label">MOVIE URL</span>
+                                    <input
+                                        name="poster_path"
+                                        placeholder="Movie URL here"
+                                        value={form.values.poster_path}
+                                        onChange={form.handleChange}
+                                        className="input"
+                                    />
+                                    {form.touched.poster_path && form.errors.poster_path ? (
+                                        <div>{form.errors.poster_path}</div>
+                                    ) : null}
+                                </div>
                             </li>
                             <li>
-                                <TextInput
-                                    name="genres"
-                                    title="genre"
-                                    type="select"
-                                    placeholder="Select Genre"
-                                    value={genres}
-                                    onChange={setGenres}
-                                />
+                                <div className="text-input">
+                                    <span className="label">GENRE</span>
+                                    <input
+                                        name="genres"
+                                        type="select"
+                                        placeholder="Select Genre"
+                                        value={form.values.genres}
+                                        onChange={form.handleChange}
+                                        className="input"
+                                    />
+                                    {form.touched.genres && form.errors.genres ? (
+                                        <div>{form.errors.genres}</div>
+                                    ) : null}
+                                </div>
                             </li>
                             <li>
-                                <TextInput
-                                    name="overview"
-                                    title="overview"
-                                    type="textarea"
-                                    placeholder="Overview here"
-                                    value={overview}
-                                    onChange={setOverview}
-                                />
+                                <div className="text-input">
+                                    <span className="label">OVERVIEW</span>
+                                    <textarea
+                                        name="overview"
+                                        placeholder="Overview here"
+                                        value={form.values.overview}
+                                        onChange={form.handleChange}
+                                        className="input"
+                                    />
+                                    {form.touched.overview && form.errors.overview ? (
+                                        <div>{form.errors.overview}</div>
+                                    ) : null}
+                                </div>
                             </li>
                             <li>
-                                <TextInput
-                                    name="runtime"
-                                    title="runtime"
-                                    placeholder="Runtime here"
-                                    value={runtime}
-                                    onChange={setRuntime}
-                                />
+                                <div className="text-input">
+                                    <span className="label">RUNTIME</span>
+                                    <input
+                                        name="runtime"
+                                        placeholder="Runtime here"
+                                        value={form.values.runtime}
+                                        onChange={form.handleChange}
+                                        className="input"
+                                    />
+                                    {form.touched.runtime && form.errors.runtime ? (
+                                        <div>{form.errors.runtime}</div>
+                                    ) : null}
+                                </div>
                             </li>
                         </>
                     )}
@@ -127,11 +164,11 @@ const MovieModal = ({ movie, text, isEdit, isDelete, toggleMovieModal, updateMov
                     ) : (
                         <>
                             <button className="rst-btn border-r">RESET</button>
-                            <button className="sbmt-btn border-r" onClick={onConfirm}>CONFIRM</button>
+                            <button type="submit" className="sbmt-btn border-r">CONFIRM</button>
                         </>
                     )}
                 </div>
-            </div>
+            </form>
         </div>
     );
 }
