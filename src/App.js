@@ -14,8 +14,9 @@ export const App = () => {
     const [isAddMovieModalShown, toggleMovieModal] = useToggle(false);
 
     return (
-        <Provider store={store}>
             <Router>
+                <Provider store={store}>
+
                 <Switch>
                     <Route exact path="/">
                         <Homepage toggleMovieModal={toggleMovieModal}/>
@@ -28,8 +29,9 @@ export const App = () => {
                 </Switch>
                 {isAddMovieModalShown &&
                 <MovieModal toggleMovieModal={toggleMovieModal} text={'add movie'}/>}
+                </Provider>
+
             </Router>
-        </Provider>
     )
 }
 

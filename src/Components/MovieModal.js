@@ -6,17 +6,16 @@ import * as Yup from 'yup';
 
 import { updateMovie, addMovie, deleteMovie } from '../Actions/actions';
 
-const MovieModal = ({ movie, text, isEdit, isDelete, toggleMovieModal, updateMovie, addMovie }) => {
+export const MovieModal = ({ movie, text, isEdit, isDelete, toggleMovieModal, updateMovie, addMovie }) => {
     const form = useFormik({
         enableReinitialize: true,
         initialValues: {
             title: isEdit ? movie.title : '',
             release_date: isEdit ? movie.release_date : '',
             poster_path: isEdit ? movie.poster_path : '',
-            genres: isEdit ? movie.genres : '',
+            genres: isEdit ? movie.genres : [],
             overview: isEdit ? movie.overview : '',
             runtime: isEdit ? movie.runtime : '',
-            id: isEdit ? movie.id : '',
         },
         validationSchema: Yup.object({
                 title: Yup.string()
@@ -66,8 +65,9 @@ const MovieModal = ({ movie, text, isEdit, isDelete, toggleMovieModal, updateMov
                         <>
                             <li className={!isEdit ? 'first-input' : ''}>
                                 <div className="text-input">
-                                    <span className="label">TITLE</span>
+                                    <label htmlFor="title" className="label">TITLE</label>
                                     <input
+                                        id="title"
                                         name="title"
                                         placeholder="Select Title"
                                         value={form.values.title}
@@ -81,8 +81,9 @@ const MovieModal = ({ movie, text, isEdit, isDelete, toggleMovieModal, updateMov
                             </li>
                             <li>
                                 <div className="text-input">
-                                    <span className="label">RELEASE DATE</span>
+                                    <label htmlFor="release_date" className="label">RELEASE DATE</label>
                                     <input
+                                        id="release_date"
                                         name="release_date"
                                         placeholder="Select Date"
                                         value={form.values.release_date}
@@ -96,8 +97,9 @@ const MovieModal = ({ movie, text, isEdit, isDelete, toggleMovieModal, updateMov
                             </li>
                             <li>
                                 <div className="text-input">
-                                    <span className="label">MOVIE URL</span>
+                                    <label htmlFor="poster_path" className="label">MOVIE URL</label>
                                     <input
+                                        id="poster_path"
                                         name="poster_path"
                                         placeholder="Movie URL here"
                                         value={form.values.poster_path}
@@ -111,8 +113,9 @@ const MovieModal = ({ movie, text, isEdit, isDelete, toggleMovieModal, updateMov
                             </li>
                             <li>
                                 <div className="text-input">
-                                    <span className="label">GENRE</span>
+                                    <label htmlFor="genres" className="label">GENRE</label>
                                     <input
+                                        id="genres"
                                         name="genres"
                                         type="select"
                                         placeholder="Select Genre"
@@ -127,8 +130,9 @@ const MovieModal = ({ movie, text, isEdit, isDelete, toggleMovieModal, updateMov
                             </li>
                             <li>
                                 <div className="text-input">
-                                    <span className="label">OVERVIEW</span>
+                                    <label htmlFor="overview" className="label">OVERVIEW</label>
                                     <textarea
+                                        id="overview"
                                         name="overview"
                                         placeholder="Overview here"
                                         value={form.values.overview}
@@ -142,11 +146,12 @@ const MovieModal = ({ movie, text, isEdit, isDelete, toggleMovieModal, updateMov
                             </li>
                             <li>
                                 <div className="text-input">
-                                    <span className="label">RUNTIME</span>
+                                    <label htmlFor="runtime" className="label">RUNTIME</label>
                                     <input
+                                        id="runtime"
                                         name="runtime"
                                         placeholder="Runtime here"
-                                        value={form.values.runtime}
+                                        value={form.values.runtime.toString()}
                                         onChange={form.handleChange}
                                         className="input"
                                     />
