@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from "react-redux";
+import { NavLink } from 'react-router-dom';
 
 import { useToggle } from './Consts';
 
@@ -11,7 +12,6 @@ const MovieCard = ({
      movie,
      toggleEditMovieModal,
      toggleDeleteMovieModal,
-     setMovieInfo,
      getMovie
     }) => {
     const [isMenuShown, toggleMenu] = useToggle(false);
@@ -30,7 +30,7 @@ const MovieCard = ({
 
     return (
         <div className="d-column movie">
-            <div className="card" onClick={() => setMovieInfo(movie)} style={{ backgroundImage:  `url('${movie.poster_path}')`}}>
+            <NavLink to={`/film/${movie.id}`} className="card" style={{ backgroundImage:  `url('${movie.poster_path}')`}}>
                 {isMenuShown ? (
                     <div className="card-menu">
                         <span className="close-modal close-menu" onClick={toggleMenu}>&#x2715;</span>
@@ -42,7 +42,7 @@ const MovieCard = ({
                 ) : (
                     <span className="kebab-icon" onClick={toggleMenu}>&#8942;</span>
                 )}
-            </div>
+            </NavLink>
             <div className="description">
                 <div className="d-column">
                     <span className="movie-name">{movie.title}</span>
@@ -58,7 +58,6 @@ MovieCard.prototypes = {
     movie: PropTypes.object.isRequired,
     toggleEditMovieModal: PropTypes.func.isRequired,
     toggleDeleteMovieModal: PropTypes.func.isRequired,
-    setMovieInfo: PropTypes.func.isRequired,
 
     getMovie: PropTypes.func.isRequired,
 }
