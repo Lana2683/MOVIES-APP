@@ -6,22 +6,21 @@ import { getMovies } from "../Actions/actions";
 import Main from "./Main";
 import PropTypes from "prop-types";
 
-
-const useQuery = () => new URLSearchParams(useLocation().search)
-
-
 const NoMovieFound = ({ moviesList, toggleMovieModal }) => {
+    const { search } = useLocation();
+    const query = new URLSearchParams(search);
     const [searchedFilm, setSearchedFilm] = useState('');
-    const query = useQuery();
     const filmName = query.get("title");
     const getFilteredFilms = () => {
-        return filmName ? moviesList.filter(movie => movie.title === searchedFilm) : [];
+        return filmName ? moviesList.filter(movie => movie.title === filmName) : [];
     }
+
     useEffect(() => {
         if (searchedFilm) {
             getFilteredFilms()
         }
     }, [searchedFilm])
+
     return (
         <div className='container'>
             <Header

@@ -1,7 +1,7 @@
 import actionTypes from '../Actions/actionTypes';
 
 const initialState = {
-    moviesList: []
+    moviesList: [],
 }
 
 const {
@@ -13,12 +13,13 @@ const {
     SORT_MOVIES,
     FILTER_MOVIES,
 } = actionTypes;
+
 const moviesReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_MOVIES: {
             return {
                 ...state,
-                moviesList: action.payload
+                moviesList: action.payload,
             };
         }
 

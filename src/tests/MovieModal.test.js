@@ -1,8 +1,8 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
-import {MovieModal} from "../Components/MovieModal";
+import { MovieModal } from "../Components/MovieModal";
 
 test('rendering and submitting Formik form', async () => {
     const handleSubmit = jest.fn()
@@ -15,15 +15,16 @@ test('rendering and submitting Formik form', async () => {
     userEvent.type(screen.getByLabelText(/OVERVIEW/i), 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga, minus')
     userEvent.type(screen.getByLabelText(/RUNTIME/i), '1234')
 
-
     userEvent.click(screen.getByRole('button', { name: /submit/i }))
 
-    expect(handleSubmit).toHaveBeenCalledWith({
-        title: 'Some film',
-        release_date: '12-12-2012',
-        poster_path: 'https://image.tmdb.org/t/p/w500/ylXCdC106IKiarftHkcacasaAcb.jpg',
-        genres: 'action',
-        overview: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga, minus',
-        runtime: '1234',
-    }, expect.anything())
+    await waitFor(() =>
+        expect(handleSubmit).toHaveBeenCalledWith({
+            title: 'Some film',
+            release_date: '12-12-2012',
+            poster_path: 'https://image.tmdb.org/t/p/w500/ylXCdC106IKiarftHkcacasaAcb.jpg',
+            genres: 'action',
+            overview: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga, minus',
+            runtime: '1234',
+        }, expect.anything())
+    )
 })

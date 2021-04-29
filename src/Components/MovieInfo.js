@@ -44,7 +44,7 @@ MovieInfo.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    movie: state.movies.movie ? state.movies.movie : {},
+    movie: state.movies.movie || {},
 });
 
 const mapDispatchToProps = {
