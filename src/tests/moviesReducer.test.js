@@ -1,6 +1,6 @@
 import moviesReducer from '../Reducers/moviesReducer';
-import * as actionTypes from '../Actions/actionTypes';
-import { mockedMovies } from './mockedMovies';
+import actionTypes from '../Actions/actionTypes';
+import { mockedMovies, newMoviesList, sortedMovies, filteredMovies } from './mockedMovies';
 
 const {
     GET_MOVIES,
@@ -24,9 +24,9 @@ describe('moviesReducer', () => {
     it('should handle GET_MOVIES', () => {
         const action = {
             type: GET_MOVIES,
-            payload: mockedMovies[0]
+            payload: mockedMovies
         };
-        expect(moviesReducer(initialState, action)).toEqual(initialState)
+        expect(moviesReducer(initialState, action)).toEqual({ moviesList: mockedMovies })
     })
 
     it('should handle GET_MOVIE', () => {
@@ -35,7 +35,7 @@ describe('moviesReducer', () => {
             payload: mockedMovies[0]
         };
         expect(
-            moviesReducer({ moviesList: mockedMovies },action)).toEqual({ moviesList: mockedMovies })
+            moviesReducer(initialState, action)).toEqual({ movie: mockedMovies[0], ...initialState })
     })
 
     it('should handle UPDATE_MOVIE', () => {
@@ -53,7 +53,7 @@ describe('moviesReducer', () => {
             payload: mockedMovies[2]
         };
 
-        expect(moviesReducer(initialState, action)).toEqual(initialState);
+        expect(moviesReducer(initialState, action)).toEqual({ moviesList: [mockedMovies[2]] });
     });
 
     it('should handle DELETE_MOVIE', () => {
@@ -62,16 +62,19 @@ describe('moviesReducer', () => {
             payload: 313369
         };
 
-        expect(moviesReducer({ moviesList: mockedMovies }, action)).toEqual({ moviesList: mockedMovies });
+        expect(moviesReducer({ moviesList: mockedMovies }, action)).toEqual({ moviesList: newMoviesList });
     });
 
     it('should handle SORT_MOVIES', () => {
         const action = {
             type: SORT_MOVIES,
-            payload: 'revenue'
+            payload: 'rating'
         };
 
-        expect(moviesReducer({ moviesList: mockedMovies }, action)).toEqual({ moviesList: mockedMovies });
+        expect(moviesReducer({ moviesList: mockedMovies }, action)).toEqual({
+            sortedMoviesList: sortedMovies,
+            moviesList: mockedMovies
+        });
     });
 
     it('should handle FILTER_MOVIES', () => {
@@ -80,6 +83,9 @@ describe('moviesReducer', () => {
             payload: 'Drama'
         };
 
-        expect(moviesReducer({ moviesList: mockedMovies }, action)).toEqual({ moviesList: mockedMovies });
+        expect(moviesReducer({ moviesList: mockedMovies }, action)).toEqual({
+            moviesList: mockedMovies,
+            filteredMoviesList: filteredMovies
+        });
     });
  })

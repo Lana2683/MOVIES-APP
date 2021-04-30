@@ -63,7 +63,7 @@ const moviesReducer = (state = initialState, action) => {
                         return Date.parse(new Date(b.release_date).toString()) - Date.parse(new Date(a.release_date).toString());
                     }
                     if (sort === 'rating') {
-                        return b.vote_average - a.vote_average;
+                        return b.vote_count - a.vote_count;
                     }
                 })
             }
@@ -74,7 +74,7 @@ const moviesReducer = (state = initialState, action) => {
             return {
                 ...state,
                 filteredMoviesList: state.moviesList.filter(movie =>
-                    movie.genre.some(it => it === genre)
+                    movie.genres.some(it => it === genre)
                 )
             }
         }
