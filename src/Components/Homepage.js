@@ -1,40 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { Redirect } from "react-router-dom";
+import PropTypes from "prop-types";
 
-import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import ErrorBoundary from './ErrorBoundary';
-import MovieModal from './MovieModal';
-import { MovieInfo } from './MovieInfo';
-import { useToggle } from './Consts';
+import Header from "./Header";
 
 import './Homepage.css';
 
-export const Homepage = () => {
-    const [movieInfo, setMovieInfo] = useState(null);
-    const [isMovieInfoShown, setIsMovieInfoShown] = useState(false);
-    const [isAddMovieModalShown, toggleMovieModal] = useToggle(false);
-
-    useEffect(() => {
-        if (movieInfo) {
-            setIsMovieInfoShown(true)
-        }
-    }, [movieInfo]);
+export const Homepage = ({ toggleMovieModal }) => {
+    const [isSearch, setIsSearch] = useState(false);
 
     return (
         <div className='container'>
-            {isMovieInfoShown ?
-                <MovieInfo movie={movieInfo} closeMovieInfo={setIsMovieInfoShown}/> :
-                <Header title='find your movie' toggleAddMovieModal={toggleMovieModal}/>
-            }
+            <Header title='find your movie' toggleAddMovieModal={toggleMovieModal} setIsSearch={setIsSearch}/>
             <ErrorBoundary>
-                {isAddMovieModalShown &&
-                <MovieModal toggleMovieModal={toggleMovieModal} text={'add movie'}/>}
-                <Main setMovieInfo={setMovieInfo}/>
+                {isSearch && <Redirect to="/search"/>}
+                <Main/>
             </ErrorBoundary>
             <Footer/>
         </div>
     );
+}
+
+Homepage.prototypes = {
+    isAddMovieModalShown: PropTypes.bool.isRequired,
+    toggleMovieModal: PropTypes.func.isRequired,
 }
 
 export default Homepage;

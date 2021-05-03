@@ -8,11 +8,26 @@ import MovieModal from "./MovieModal";
 
 import { getMovies, sortMovies, filterMovies } from '../Actions/actions'
 
-const Main = ({ setMovieInfo, moviesList, getMovies, sortMovies, sortedMoviesList, filteredMoviesList, filterMovies }) => {
+const Main = ({
+  moviesList,
+  films,
+  isSearch,
+  getMovies,
+  sortMovies,
+  sortedMoviesList,
+  filteredMoviesList,
+  filterMovies
+}) => {
     const [isEditMovieModalShown, toggleEditMovieModal] = useToggle(false);
     const [isDeleteModalShown, toggleDeleteMovieModal] = useToggle(false);
     const [isSorting, setIsSorting] = useState(false);
     const [isFiltering, setIsFiltering] = useState(false);
+
+    useEffect(() => {
+        if (!isSearch) {
+            getMovies()
+        }
+    }, [])
 
     const getMoviesList = () => {
         if (isSorting) {
@@ -21,7 +36,7 @@ const Main = ({ setMovieInfo, moviesList, getMovies, sortMovies, sortedMoviesLis
         if (isFiltering) {
             return filteredMoviesList;
         }
-        return moviesList;
+        return isSearch ? films : moviesList;
     }
 
     const onSelect = (e) => {
@@ -39,7 +54,6 @@ const Main = ({ setMovieInfo, moviesList, getMovies, sortMovies, sortedMoviesLis
         setIsFiltering(true);
     }
 
-    useEffect(() => {getMovies()}, [])
 
     return (
         <div className="main">
@@ -65,7 +79,6 @@ const Main = ({ setMovieInfo, moviesList, getMovies, sortMovies, sortedMoviesLis
                         movie={movie}
                         toggleEditMovieModal={toggleEditMovieModal}
                         toggleDeleteMovieModal={toggleDeleteMovieModal}
-                        setMovieInfo={setMovieInfo}
                     />
                 )}
             </div>
@@ -78,24 +91,26 @@ const Main = ({ setMovieInfo, moviesList, getMovies, sortMovies, sortedMoviesLis
 }
 
 Main.prototypes = {
-    setMovieInfo: PropTypes.func.isRequired,
-    showMovieInfo: PropTypes.func.isRequired,
-
-    getMovies: PropTypes.func.isRequired,
     sortMovies: PropTypes.func.isRequired,
     filterMovies: PropTypes.func.isRequired,
+    moviesList: PropTypes.array.isRequired,
+    films: PropTypes.array,
+    isSearch:  PropTypes.bool,
+    getMovies: PropTypes.func.isRequired,
+    sortedMoviesList: PropTypes.array,
+    filteredMoviesList: PropTypes.array,
 }
 
 const mapStateToProps = (state) => ({
-    moviesList: state.movies.moviesList,
     sortedMoviesList: state.movies.sortedMoviesList,
     filteredMoviesList: state.movies.filteredMoviesList,
+    moviesList: state.movies.moviesList,
 });
 
 const mapDispatchToProps = {
-    getMovies,
     sortMovies,
     filterMovies,
+    getMovies
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
