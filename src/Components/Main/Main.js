@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
-import { FILTERS, useToggle } from './Consts';
-import MovieCard from "./MovieCard";
-import MovieModal from "./MovieModal";
+import { FILTERS, useToggle } from '../Consts';
+import MovieCard from "../MovieCard/MovieCard";
+import MovieModal from "../MovieModal/MovieModal";
 
-import { getMovies, sortMovies, filterMovies } from '../Actions/actions'
+import styles from "../Homepage/Homepage.css";
 
 const Main = ({
   moviesList,
@@ -56,23 +55,23 @@ const Main = ({
 
 
     return (
-        <div className="main">
-            <nav className="nav-bar">
+        <div className={styles.main}>
+            <nav className={styles.navBar}>
                 <div>
-                    <span className="nav-item" onClick={() => selectAll()}>ALL</span>
+                    <span className={styles.navItem} onClick={() => selectAll()}>ALL</span>
                     {FILTERS.map(item => (
-                        <span key={item} className="nav-item" onClick={() => filterItem(item)}>{item.toUpperCase()}</span>)
+                        <span key={item} className={styles.navItem} onClick={() => filterItem(item)}>{item.toUpperCase()}</span>)
                     )}
                 </div>
                 <div>
-                    <span className="nav-item-sort">SORT BY</span>
-                    <select className="nav-item-dropdown" onChange={(e) => onSelect(e)}>
+                    <span className={styles.navItemSort}>SORT BY</span>
+                    <select className={styles.navItemDropdown} onChange={(e) => onSelect(e)}>
                         <option value="release_date">RELEASE DATE</option>
                         <option value="rating">RATING</option>
                     </select>
                 </div>
             </nav>
-            <div className="movie-list">
+            <div className={styles.movieList}>
                 {getMoviesList().map(movie =>
                     <MovieCard
                         key={movie.id}
@@ -97,20 +96,8 @@ Main.prototypes = {
     films: PropTypes.array,
     isSearch:  PropTypes.bool,
     getMovies: PropTypes.func.isRequired,
-    sortedMoviesList: PropTypes.array,
-    filteredMoviesList: PropTypes.array,
+    sortedMoviesList: PropTypes.arrayOf(PropTypes.shape({})),
+    filteredMoviesList: PropTypes.arrayOf(PropTypes.shape({})),
 }
 
-const mapStateToProps = (state) => ({
-    sortedMoviesList: state.movies.sortedMoviesList,
-    filteredMoviesList: state.movies.filteredMoviesList,
-    moviesList: state.movies.moviesList,
-});
-
-const mapDispatchToProps = {
-    sortMovies,
-    filterMovies,
-    getMovies
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default Main;

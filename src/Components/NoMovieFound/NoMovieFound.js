@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import Header from "./Header";
+import Header from "../Header/Header";
 import { useLocation } from "react-router-dom";
 import { connect } from "react-redux";
-import { getMovies } from "../Actions/actions";
-import Main from "./Main";
+import { getMovies } from "../../Actions/actions";
+import Main from "../Main/Main";
 import PropTypes from "prop-types";
+import styles from "../Homepage/Homepage.css";
 
 const NoMovieFound = ({ moviesList, toggleMovieModal }) => {
     const { search } = useLocation();
@@ -22,7 +23,7 @@ const NoMovieFound = ({ moviesList, toggleMovieModal }) => {
     }, [searchedFilm])
 
     return (
-        <div className='container'>
+        <div className={styles.container}>
             <Header
                 title='find your movie'
                 toggleAddMovieModal={toggleMovieModal}

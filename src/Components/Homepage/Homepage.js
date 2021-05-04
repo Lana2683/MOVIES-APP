@@ -2,18 +2,18 @@ import React, { useState } from 'react';
 import { Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 
-import Main from './Main';
-import Footer from './Footer';
-import ErrorBoundary from './ErrorBoundary';
-import Header from "./Header";
+import Main from '../Main/Main';
+import Footer from '../Footer/Footer';
+import ErrorBoundary from '../ErrorBoundary';
+import Header from "../Header/Header";
 
-import './Homepage.css';
+import styles  from './Homepage.css';
 
 export const Homepage = ({ toggleMovieModal }) => {
     const [isSearch, setIsSearch] = useState(false);
 
     return (
-        <div className='container'>
+        <div className={styles.container}>
             <Header title='find your movie' toggleAddMovieModal={toggleMovieModal} setIsSearch={setIsSearch}/>
             <ErrorBoundary>
                 {isSearch && <Redirect to="/search"/>}

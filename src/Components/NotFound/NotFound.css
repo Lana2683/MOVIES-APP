@@ -1,4 +1,4 @@
-.not-found {
+.notFound {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -7,7 +7,7 @@
     height: 100vh;
 }
 
-.back-btn {
+.backBtn {
     padding: 10px 20px;
     color: #F65261;
     cursor: pointer;
