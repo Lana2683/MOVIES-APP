@@ -1,10 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from "react-redux";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-
-import { updateMovie, addMovie, deleteMovie } from '../Actions/actions';
 
 export const MovieModal = ({ movie, text, isEdit, isDelete, toggleMovieModal, updateMovie, addMovie }) => {
     const form = useFormik({
@@ -183,21 +180,11 @@ MovieModal.prototypes = {
     toggleMovieModal: PropTypes.func.isRequired,
     isEdit: PropTypes.bool.isRequired,
     isDelete: PropTypes.bool.isRequired,
-    movie: PropTypes.object.isRequired,
+    movie:PropTypes.arrayOf(PropTypes.shape({})),
 
     updateMovie: PropTypes.func.isRequired,
     addMovie: PropTypes.func.isRequired,
     deleteMovie: PropTypes.func.isRequired
 }
 
-const mapStateToProps = (state) => ({
-    movie: state.movies.movie ? state.movies.movie : {}
-});
-
-const mapDispatchToProps = {
-    updateMovie,
-    addMovie,
-    deleteMovie
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(MovieModal);
+export default MovieModal;

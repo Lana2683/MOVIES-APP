@@ -1,6 +1,6 @@
 import React from "react";
 import { render } from '@testing-library/react';
-import Footer from "../Components/Footer";
+import Footer from "../Components/Footer/Footer";
 
 describe('Footer', () => {
     test('render Footer snapshot', () => {
